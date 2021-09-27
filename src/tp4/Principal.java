@@ -36,6 +36,7 @@ public class Principal extends javax.swing.JFrame {
      * Creates new form Principal
      */
     private DefaultTableModel tabla = new DefaultTableModel();
+    //A
     int N = 0;
     int desde = 0;
     int hasta = 0;
