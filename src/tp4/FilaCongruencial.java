@@ -9,9 +9,13 @@ package tp4;
  *
  * @author Usuario
  */
-public class Fila implements IFila{
+public class FilaCongruencial implements IFila{
 
 
+    long a =0;
+    long c = 0;
+    long m = 0;
+    long semilla = 0;
     double randomA1 = 0;
     double randomA2 = 0;
     double randomA3 = 0;
@@ -36,25 +40,35 @@ public class Fila implements IFila{
     IActividad A4;
     IActividad A5;
 
-    public Fila(IActividad a1, IActividad a2, IActividad a3, IActividad a4, IActividad a5) {
+    public FilaCongruencial(IActividad a1, IActividad a2, IActividad a3, IActividad a4, IActividad a5, long a, long c, long m, long semilla) {
         this.A1=a1;
         this.A2=a2;
         this.A3=a3;
         this.A4=a4;
         this.A5=a5;
+        this.a = a;
+        this.c = c;
+        this.m = m;
+        this.semilla = semilla;
+        
     }
 
     public void CalcularPrimeraFila() {
-        randomA1 = Math.random();
+        semilla = (a*semilla+c)%m;
+                randomA1 = (double) semilla/m;
+                
+                semilla = (a*semilla+c)%m;
+               randomA2 =(double) semilla/m;
 
-               randomA2 = Math.random();
+               semilla = (a*semilla+c)%m;
+               randomA3 =(double) semilla/m;
 
-               randomA3 = Math.random();
+               semilla = (a*semilla+c)%m;
+               randomA4 =(double) semilla/m;
 
-               randomA4 = Math.random();
-
-               randomA5 = Math.random();
-
+               semilla = (a*semilla+c)%m;
+               randomA5 =(double) semilla/m;
+               
         
         tiempoA1=A1.calcularTiempo(randomA1);
         tiempoA2=A2.calcularTiempo(randomA2);
@@ -79,15 +93,22 @@ public class Fila implements IFila{
 
     public void CalcularNuevaFila(double contadorN, double promedio) {
 
-        randomA1 = Math.random();
+        semilla = (a*semilla+c)%m;
+        System.out.println("S" + semilla);
+                randomA1 =(double) semilla/m;
+                
+                semilla = (a*semilla+c)%m;
+               randomA2 =(double) semilla/m;
 
-               randomA2 = Math.random();
+               semilla = (a*semilla+c)%m;
+               randomA3 =(double) semilla/m;
 
-               randomA3 = Math.random();
+               semilla = (a*semilla+c)%m;
+               randomA4 = (double)semilla/m;
 
-               randomA4 = Math.random();
-
-               randomA5 = Math.random();
+               semilla = (a*semilla+c)%m;
+               randomA5 =(double) semilla/m;
+               
 
         
         tiempoA1=A1.calcularTiempo(randomA1);
@@ -107,12 +128,7 @@ public class Fila implements IFila{
         this.promedio = 1/contadorN*((contadorN-1)*promedio+fin);
 
     }
-    public long getSemilla(){
-        return -1;
-    }
-    public void setSemilla(long s){
-        
-    }
+
     public double getRandomA1() {
         return randomA1;
     }
@@ -281,7 +297,37 @@ public class Fila implements IFila{
         this.finA4 = finA4;
     }
 
+    public long getA() {
+        return a;
+    }
 
+    public void setA(int a) {
+        this.a = a;
+    }
+
+    public long getC() {
+        return c;
+    }
+
+    public void setC(int c) {
+        this.c = c;
+    }
+
+    public long getM() {
+        return m;
+    }
+
+    public void setM(int m) {
+        this.m = m;
+    }
+
+    public long getSemilla() {
+        return semilla;
+    }
+
+    public void setSemilla(long semilla) {
+        this.semilla = semilla;
+    }
     
 
 }
