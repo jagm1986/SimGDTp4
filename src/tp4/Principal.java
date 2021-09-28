@@ -5,12 +5,9 @@
  */
 package tp4;
 
-//TODO Metodo congruencial mixto
-//TODO Boton para mostrar grafico
+
+//TODO Agregar validaciones para parametros normal y exponencial
 //TODO Ultimo punto con los 15 intervalos
-//TODO Meter lo que esta en consola en la pantalla
-//TODO Habilitar las otras distribuciones
-//TODO Nombres integrantes
 
 
 import java.text.DecimalFormat;
@@ -45,22 +42,28 @@ public class Principal extends javax.swing.JFrame {
     private IActividad auxA3;
     private IActividad auxA4;
     private IActividad auxA5;
-    private Fila aux1;
-    private Fila aux2;
+    private IFila aux1;
+    private IFila aux2;
     private double promedio = 0;
     private double maximo = 0;
     private double minimo = 0;
     private int counterProbabilidad45dias = 0;
+    long a =0;
+    long c = 0;
+    long m = 0;
+    long semilla = 0;
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
     
     DecimalFormat df = new DecimalFormat("#.###");
     
     
     private JFrame pantallaActual;
 
-    private Object[] filaAImprimir = new Object[16];
-    private Object[] columna = {"Simulacion", "Rand 1", "Tiempo A1", "Rand 2", "Tiempo A2", "Rand 3", "Tiempo A3", "Rand 4", "Tiempo A4", "Rand 5", "Tiempo A5", "Fin", "Acumulado" ,"Promedio", "Minimo", "Maximo"};
+    private Object[] filaAImprimir = new Object[17];
+    private Object[] columna = {"Simulacion", "Rand 1", "Tiempo A1", "Rand 2", "Tiempo A2", "Rand 3", "Tiempo A3", "Rand 4", "Tiempo A4", "Fin A4", "Rand 5", "Tiempo A5", "Fin", "Acumulado" ,"Promedio", "Minimo", "Maximo"};
 
-    private void llenarFila(Fila aux) {
+    private void llenarFila(IFila aux) {
         filaAImprimir[0] = (int) aux.getContadorN();
         filaAImprimir[1] = df.format(aux.getRandomA1());
         filaAImprimir[2] = df.format(aux.getTiempoA1());
@@ -70,13 +73,14 @@ public class Principal extends javax.swing.JFrame {
         filaAImprimir[6] = df.format(aux.getTiempoA3());
         filaAImprimir[7] = df.format(aux.getRandomA4());
         filaAImprimir[8] = df.format(aux.getTiempoA4());
-        filaAImprimir[9] = df.format(aux.getRandomA5());
-        filaAImprimir[10] = df.format(aux.getTiempoA5());
+        filaAImprimir[9] = df.format(aux.getFinA4());
+        filaAImprimir[10] = df.format(aux.getRandomA5());
         filaAImprimir[11] = df.format(aux.getTiempoA5());
-        filaAImprimir[12] = df.format(aux.getAcumulador());
-        filaAImprimir[13] = df.format(aux.getPromedio());
-        filaAImprimir[14] = df.format(minimo);
-        filaAImprimir[15] = df.format(maximo);
+        filaAImprimir[12] = df.format(aux.getFin());
+        filaAImprimir[13] = df.format(aux.getAcumulador());
+        filaAImprimir[14] = df.format(aux.getPromedio());
+        filaAImprimir[15] = df.format(minimo);
+        filaAImprimir[16] = df.format(maximo);
 
     }
 
@@ -191,6 +195,17 @@ public class Principal extends javax.swing.JFrame {
         
 
     }
+    
+    private boolean VerificarSeleccionCongruencial(){
+        if(radioButtonCongurencial.isSelected()== true){
+            a=Long.parseLong(textACong.getText());
+            c=Long.parseLong(textCCong.getText());
+            m=Long.parseLong(textMCong.getText());
+            semilla=Long.parseLong(textSemillaCong.getText());
+            return true;
+        }
+        return false;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -206,6 +221,7 @@ public class Principal extends javax.swing.JFrame {
         buttonGroup3 = new javax.swing.ButtonGroup();
         buttonGroup4 = new javax.swing.ButtonGroup();
         buttonGroup5 = new javax.swing.ButtonGroup();
+        buttonGroup6 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
         BtnSimular = new javax.swing.JButton();
@@ -216,7 +232,7 @@ public class Principal extends javax.swing.JFrame {
         txtDesde = new javax.swing.JTextField();
         txtHasta = new javax.swing.JTextField();
         btnEvaluar = new javax.swing.JButton();
-        lblPrueba = new javax.swing.JLabel();
+        lblMax = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -287,6 +303,21 @@ public class Principal extends javax.swing.JFrame {
         textaA5 = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
         textbA5 = new javax.swing.JTextField();
+        lblMin = new javax.swing.JLabel();
+        lblProb45 = new javax.swing.JLabel();
+        lblFechaMasBaja = new javax.swing.JLabel();
+        lblIntegrantes = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        radioButtonSistema = new javax.swing.JRadioButton();
+        radioButtonCongurencial = new javax.swing.JRadioButton();
+        jLabel35 = new javax.swing.JLabel();
+        textACong = new javax.swing.JTextField();
+        jLabel36 = new javax.swing.JLabel();
+        textCCong = new javax.swing.JTextField();
+        jLabel37 = new javax.swing.JLabel();
+        textMCong = new javax.swing.JTextField();
+        textSemillaCong = new javax.swing.JTextField();
+        jLabel38 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 204));
@@ -311,7 +342,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Cantidad de Vuelos a Simular");
+        jLabel2.setText("Cantidad de tareas a Simular");
 
         txtCantidadFilas.setText("100000");
 
@@ -323,14 +354,14 @@ public class Principal extends javax.swing.JFrame {
 
         txtHasta.setText("1000");
 
-        btnEvaluar.setText("Evaluar");
+        btnEvaluar.setText("Graficar");
         btnEvaluar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEvaluarActionPerformed(evt);
             }
         });
 
-        lblPrueba.setText("jLabel1");
+        lblMax.setText("Max:");
 
         jLabel1.setText("Actividad 1:");
 
@@ -359,6 +390,11 @@ public class Principal extends javax.swing.JFrame {
         buttonGroup1.add(radioButtonUniformeA1);
         radioButtonUniformeA1.setSelected(true);
         radioButtonUniformeA1.setText("Uniforme");
+        radioButtonUniformeA1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonUniformeA1ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("a:");
 
@@ -416,6 +452,11 @@ public class Principal extends javax.swing.JFrame {
         buttonGroup2.add(radioButtonUniformeA2);
         radioButtonUniformeA2.setSelected(true);
         radioButtonUniformeA2.setText("Uniforme");
+        radioButtonUniformeA2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonUniformeA2ActionPerformed(evt);
+            }
+        });
 
         jLabel16.setText("a:");
 
@@ -461,6 +502,11 @@ public class Principal extends javax.swing.JFrame {
 
         buttonGroup3.add(radioButtonUniformeA3);
         radioButtonUniformeA3.setText("Uniforme");
+        radioButtonUniformeA3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonUniformeA3ActionPerformed(evt);
+            }
+        });
 
         jLabel21.setText("a:");
 
@@ -501,6 +547,11 @@ public class Principal extends javax.swing.JFrame {
         buttonGroup4.add(radioButtonUniformeA4);
         radioButtonUniformeA4.setSelected(true);
         radioButtonUniformeA4.setText("Uniforme");
+        radioButtonUniformeA4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonUniformeA4ActionPerformed(evt);
+            }
+        });
 
         jLabel26.setText("a:");
 
@@ -548,6 +599,11 @@ public class Principal extends javax.swing.JFrame {
 
         buttonGroup5.add(radioButtonUniformeA5);
         radioButtonUniformeA5.setText("Uniforme");
+        radioButtonUniformeA5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonUniformeA5ActionPerformed(evt);
+            }
+        });
 
         jLabel32.setText("a:");
 
@@ -557,6 +613,70 @@ public class Principal extends javax.swing.JFrame {
 
         textbA5.setEnabled(false);
 
+        lblMin.setText("Min:");
+
+        lblProb45.setText("Probabilidad de completar en 45 dias o menos:");
+
+        lblFechaMasBaja.setText("Fecha mas baja posible con 90% de confianza:");
+
+        lblIntegrantes.setFont(new java.awt.Font("Cambria Math", 1, 14)); // NOI18N
+        lblIntegrantes.setText("Integrantes: Dominguez Ariel, Gudin Andres, Juarez Diego, Paglia Matias, Toia Lucia");
+
+        jLabel34.setText("Forma de generacion de aleatorios:");
+
+        buttonGroup6.add(radioButtonSistema);
+        radioButtonSistema.setSelected(true);
+        radioButtonSistema.setText("Sistema");
+        radioButtonSistema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonSistemaActionPerformed(evt);
+            }
+        });
+
+        buttonGroup6.add(radioButtonCongurencial);
+        radioButtonCongurencial.setText("Congruencial");
+        radioButtonCongurencial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonCongurencialActionPerformed(evt);
+            }
+        });
+
+        jLabel35.setText("a:");
+
+        textACong.setEnabled(false);
+        textACong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textACongActionPerformed(evt);
+            }
+        });
+
+        jLabel36.setText("c:");
+
+        textCCong.setEnabled(false);
+        textCCong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textCCongActionPerformed(evt);
+            }
+        });
+
+        jLabel37.setText("m:");
+
+        textMCong.setEnabled(false);
+        textMCong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textMCongActionPerformed(evt);
+            }
+        });
+
+        textSemillaCong.setEnabled(false);
+        textSemillaCong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textSemillaCongActionPerformed(evt);
+            }
+        });
+
+        jLabel38.setText("x:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -564,11 +684,30 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1091, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblPrueba)
+                                .addComponent(jLabel34)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(radioButtonSistema)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(radioButtonCongurencial)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel35)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textACong, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel36)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textCCong, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel37)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textMCong, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel38)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textSemillaCong, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel4))
                             .addGroup(layout.createSequentialGroup()
@@ -731,7 +870,21 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jLabel33)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textbA5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblMax)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblMin))
+                                    .addComponent(lblProb45)
+                                    .addComponent(lblFechaMasBaja))
+                                .addGap(0, 808, Short.MAX_VALUE))
+                            .addComponent(lblIntegrantes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -752,8 +905,23 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
                         .addComponent(btnEvaluar))
-                    .addComponent(lblPrueba))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(radioButtonSistema)
+                        .addComponent(radioButtonCongurencial)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel35)
+                            .addComponent(textACong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel36)
+                                .addComponent(textCCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel37)
+                                    .addComponent(textMCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel38)
+                                        .addComponent(textSemillaCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(radioButtonNormalA1)
@@ -834,8 +1002,17 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(textMuA5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textSigmaA5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMax)
+                    .addComponent(lblMin))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblProb45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFechaMasBaja)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblIntegrantes, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -847,7 +1024,9 @@ public class Principal extends javax.swing.JFrame {
         desde = Integer.parseInt(txtDesde.getText());
         hasta = Integer.parseInt(txtHasta.getText());
         
-         promedio = 0;
+         counterProbabilidad45dias = 0;
+         
+         boolean esCong = VerificarSeleccionCongruencial();
          
         obtenerDistribucionA1();
         obtenerDistribucionA2();
@@ -855,23 +1034,30 @@ public class Principal extends javax.swing.JFrame {
         obtenerDistribucionA4();
         obtenerDistribucionA5();
         
-        
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        
+
         tabla = new DefaultTableModel();
         tabla.setColumnIdentifiers(columna);
-        Fila aux1 = new Fila(auxA1, auxA2, auxA3, auxA4, auxA5);
-        Fila aux2 = new Fila(auxA1, auxA2, auxA3, auxA4, auxA5);
+        if(esCong == true){
+               aux1 = new FilaCongruencial(auxA1, auxA2, auxA3, auxA4, auxA5, a,c, m, semilla);
+        aux2 = new FilaCongruencial(auxA1, auxA2, auxA3, auxA4, auxA5, a,c, m, semilla);
+        }else{
+         aux1 =  new Fila(auxA1, auxA2, auxA3, auxA4, auxA5);
+       aux2 =  new Fila(auxA1, auxA2, auxA3, auxA4, auxA5);}
         aux1.CalcularPrimeraFila();
-        maximo = aux1.getTiempoA5();
-        minimo = aux1.getTiempoA5();
+        try{
+        if(aux2.getSemilla() != -1){
+            aux2.setSemilla(aux1.getSemilla());
+        }}
+        catch(Exception e){}
+        maximo = aux1.getFin();
+        minimo = aux1.getFin();
         for (int i = 0; i < N; i++) {
             aux2.CalcularNuevaFila(aux1.getContadorN(), aux1.getPromedio());
             if (aux1.getContadorN() >= desde && aux1.getContadorN() <= hasta || aux1.getContadorN() == N) {
                 llenarFila(aux1);
                 tabla.addRow(filaAImprimir);
                 if (aux2.getContadorN() == 2) {
-                    aux2.setAcumulador(aux1.getAcumulador()+aux2.getTiempoA5());
+                    aux2.setAcumulador(aux1.getAcumulador()+aux2.getFin());
                     aux2.setPromedio(aux2.getAcumulador()/2);
                     llenarFila(aux2);
                     tabla.addRow(filaAImprimir);
@@ -883,25 +1069,26 @@ public class Principal extends javax.swing.JFrame {
             if (i < 500){
                 dataset.addValue(aux1.getPromedio(), "", String.valueOf(i));
             }
-            if(aux1.getTiempoA5()<=45.0){
+            if(aux1.getFin()<=45.0){
                 counterProbabilidad45dias++;
             }
             aux1 = aux2;
-            if (aux1.getTiempoA5() > maximo){
-                maximo= aux1.getTiempoA5();
+            if (aux1.getFin() > maximo){
+                maximo= aux1.getFin();
             }
-            if(aux1.getTiempoA5() < minimo){
-                minimo = aux1.getTiempoA5();
+            if(aux1.getFin() < minimo){
+                minimo = aux1.getFin();
             }
         }
         double promedio45 = (double)counterProbabilidad45dias / (double) N;
-        System.out.println("Maximo:" + maximo + " Minimo: " + minimo);
-        System.out.println("Probabilidad de completar en 45 dias o menos: %" + 100*promedio45);
+        lblMax.setText("Maximo:" + df.format(maximo));
+        lblMin.setText(" Minimo: " + df.format(minimo));
+       lblProb45.setText("Probabilidad de completar en 45 dias o menos: %" + 100*promedio45);
         Tabla.setModel(tabla);
         
         double all[] = new double[hasta];
         for (int i = 0; i < hasta; i++) {
-            all[i] = Double.parseDouble(Tabla.getModel().getValueAt(i, 11).toString().replace(",", "."));
+            all[i] = Double.parseDouble(Tabla.getModel().getValueAt(i, 12).toString().replace(",", "."));
         }
         Arrays.sort(all);
         double masBajo=999999;
@@ -914,24 +1101,8 @@ public class Principal extends javax.swing.JFrame {
             }
         }
         
-        System.out.println("Fecha mas baja posible con 90% de confianza: " + masBajo);
-       /* JFreeChart lineChart = ChartFactory.createLineChart(
-         "Prueba",
-         "Years","Number of Schools",
-         dataset,
-         PlotOrientation.VERTICAL,
-         true,true,false);
-        ChartPanel chartPanel = new ChartPanel( lineChart );
-      chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
-      setContentPane( chartPanel );
-      ChartFrame frame = new ChartFrame("Gráfico de barras",lineChart);
-            frame.pack();
-            frame.setVisible(true);
-            frame.setLocationRelativeTo(null);*/
-      
-      
-       // CalcularRestantes();
-      // lblPrueba.setText(String.valueOf(promedio31) + " || " + String.valueOf(promedio32) + " || " + String.valueOf(promedio33) + " || " + String.valueOf(promedio34));
+        lblFechaMasBaja.setText("Fecha mas baja posible con 90% de confianza: " + masBajo);
+
     }//GEN-LAST:event_BtnSimularActionPerformed
     
     private void btnEvaluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluarActionPerformed
@@ -940,48 +1111,105 @@ public class Principal extends javax.swing.JFrame {
         pantallaActual.dispose();
 //        pantallaActual = new Resultado(promedio31, promedio32, promedio33, promedio34);
         pantallaActual.setVisible(true);
-        
+                JFreeChart lineChart = ChartFactory.createLineChart(
+         "Prueba",
+         "Nro Simulacion","Dias",
+         dataset,
+         PlotOrientation.VERTICAL,
+         true,true,false);
+
+      ChartFrame frame = new ChartFrame("Gráfico de barras",lineChart);
+            frame.pack();
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
+     
       
     }//GEN-LAST:event_btnEvaluarActionPerformed
 
     private void radioButtonNormalA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalA1ActionPerformed
-        // TODO add your handling code here:
+
+        textaA1.setEnabled(false);
+        textbA1.setEnabled(false);
+        textLambdaA1.setEnabled(false);
+        textSigmaA1.setEnabled(true);
+        textMuA1.setEnabled(true);
     }//GEN-LAST:event_radioButtonNormalA1ActionPerformed
 
     private void radioButtonExpA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonExpA1ActionPerformed
-        // TODO add your handling code here:
+                textaA1.setEnabled(false);
+        textbA1.setEnabled(false);
+        textLambdaA1.setEnabled(true);
+        textSigmaA1.setEnabled(false);
+        textMuA1.setEnabled(false);
     }//GEN-LAST:event_radioButtonExpA1ActionPerformed
 
     private void radioButtonNormalA2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalA2ActionPerformed
-        // TODO add your handling code here:
+             
+        textaA2.setEnabled(false);
+        textbA2.setEnabled(false);
+        textLambdaA2.setEnabled(false);
+        textSigmaA2.setEnabled(true);
+        textMuA2.setEnabled(true);
+        
     }//GEN-LAST:event_radioButtonNormalA2ActionPerformed
 
     private void radioButtonExpA2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonExpA2ActionPerformed
-        // TODO add your handling code here:
+               
+        textaA2.setEnabled(false);
+        textbA2.setEnabled(false);
+        textLambdaA2.setEnabled(true);
+        textSigmaA2.setEnabled(false);
+        textMuA2.setEnabled(false);
     }//GEN-LAST:event_radioButtonExpA2ActionPerformed
 
     private void radioButtonNormalA3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalA3ActionPerformed
-        // TODO add your handling code here:
+               textaA3.setEnabled(false);
+        textbA3.setEnabled(false);
+        textLambdaA3.setEnabled(false);
+        textSigmaA3.setEnabled(true);
+        textMuA3.setEnabled(true);
     }//GEN-LAST:event_radioButtonNormalA3ActionPerformed
 
     private void radioButtonExpA3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonExpA3ActionPerformed
-        // TODO add your handling code here:
+               textaA3.setEnabled(false);
+        textbA3.setEnabled(false);
+        textLambdaA3.setEnabled(true);
+        textSigmaA3.setEnabled(false);
+        textMuA3.setEnabled(false);
+      
     }//GEN-LAST:event_radioButtonExpA3ActionPerformed
 
     private void radioButtonNormalA4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalA4ActionPerformed
-        // TODO add your handling code here:
+          textaA4.setEnabled(false);
+        textbA4.setEnabled(false);
+        textLambdaA4.setEnabled(false);
+        textSigmaA4.setEnabled(true);
+        textMuA4.setEnabled(true);
     }//GEN-LAST:event_radioButtonNormalA4ActionPerformed
 
     private void radioButtonExpA4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonExpA4ActionPerformed
-        // TODO add your handling code here:
+            textaA4.setEnabled(false);
+        textbA4.setEnabled(false);
+        textLambdaA4.setEnabled(true);
+        textSigmaA4.setEnabled(false);
+        textMuA4.setEnabled(false);
     }//GEN-LAST:event_radioButtonExpA4ActionPerformed
 
     private void radioButtonNormalA5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalA5ActionPerformed
-        // TODO add your handling code here:
+               textaA5.setEnabled(false);
+        textbA5.setEnabled(false);
+        textLambdaA5.setEnabled(false);
+        textSigmaA5.setEnabled(true);
+        textMuA5.setEnabled(true);
     }//GEN-LAST:event_radioButtonNormalA5ActionPerformed
 
     private void radioButtonExpA5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonExpA5ActionPerformed
-        // TODO add your handling code here:
+                textaA5.setEnabled(false);
+        textbA5.setEnabled(false);
+        textLambdaA5.setEnabled(true);
+        textSigmaA5.setEnabled(false);
+        textMuA5.setEnabled(false);
+      
     }//GEN-LAST:event_radioButtonExpA5ActionPerformed
 
     private void textaA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textaA1ActionPerformed
@@ -995,6 +1223,78 @@ public class Principal extends javax.swing.JFrame {
     private void textLambdaA5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textLambdaA5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textLambdaA5ActionPerformed
+
+    private void radioButtonUniformeA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonUniformeA1ActionPerformed
+                        textaA1.setEnabled(true);
+        textbA1.setEnabled(true);
+        textLambdaA1.setEnabled(false);
+        textSigmaA1.setEnabled(false);
+        textMuA1.setEnabled(false);
+    }//GEN-LAST:event_radioButtonUniformeA1ActionPerformed
+
+    private void radioButtonUniformeA2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonUniformeA2ActionPerformed
+              
+        textaA2.setEnabled(true);
+        textbA2.setEnabled(true);
+        textLambdaA2.setEnabled(false);
+        textSigmaA2.setEnabled(false);
+        textMuA2.setEnabled(false);
+    }//GEN-LAST:event_radioButtonUniformeA2ActionPerformed
+
+    private void radioButtonUniformeA3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonUniformeA3ActionPerformed
+            textaA3.setEnabled(true);
+        textbA3.setEnabled(true);
+        textLambdaA3.setEnabled(false);
+        textSigmaA3.setEnabled(false);
+        textMuA3.setEnabled(false);
+    }//GEN-LAST:event_radioButtonUniformeA3ActionPerformed
+
+    private void radioButtonUniformeA4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonUniformeA4ActionPerformed
+         
+        textaA4.setEnabled(true);
+        textbA4.setEnabled(true);
+        textLambdaA4.setEnabled(false);
+        textSigmaA4.setEnabled(false);
+        textMuA4.setEnabled(false);
+    }//GEN-LAST:event_radioButtonUniformeA4ActionPerformed
+
+    private void radioButtonUniformeA5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonUniformeA5ActionPerformed
+              textaA5.setEnabled(true);
+        textbA5.setEnabled(true);
+        textLambdaA5.setEnabled(false);
+        textSigmaA5.setEnabled(false);
+        textMuA5.setEnabled(false);
+    }//GEN-LAST:event_radioButtonUniformeA5ActionPerformed
+
+    private void radioButtonSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonSistemaActionPerformed
+        textACong.setEnabled(false);
+        textCCong.setEnabled(false);
+        textSemillaCong.setEnabled(false);
+        textMCong.setEnabled(false);
+    }//GEN-LAST:event_radioButtonSistemaActionPerformed
+
+    private void radioButtonCongurencialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonCongurencialActionPerformed
+        textACong.setEnabled(true);
+        textCCong.setEnabled(true);
+        textSemillaCong.setEnabled(true);
+        textMCong.setEnabled(true);
+    }//GEN-LAST:event_radioButtonCongurencialActionPerformed
+
+    private void textACongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textACongActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textACongActionPerformed
+
+    private void textCCongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCCongActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textCCongActionPerformed
+
+    private void textMCongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textMCongActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textMCongActionPerformed
+
+    private void textSemillaCongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textSemillaCongActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textSemillaCongActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1043,6 +1343,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.ButtonGroup buttonGroup5;
+    private javax.swing.ButtonGroup buttonGroup6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1070,6 +1371,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1077,7 +1383,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblPrueba;
+    private javax.swing.JLabel lblFechaMasBaja;
+    private javax.swing.JLabel lblIntegrantes;
+    private javax.swing.JLabel lblMax;
+    private javax.swing.JLabel lblMin;
+    private javax.swing.JLabel lblProb45;
+    private javax.swing.JRadioButton radioButtonCongurencial;
     private javax.swing.JRadioButton radioButtonExpA1;
     private javax.swing.JRadioButton radioButtonExpA2;
     private javax.swing.JRadioButton radioButtonExpA3;
@@ -1088,21 +1399,26 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JRadioButton radioButtonNormalA3;
     private javax.swing.JRadioButton radioButtonNormalA4;
     private javax.swing.JRadioButton radioButtonNormalA5;
+    private javax.swing.JRadioButton radioButtonSistema;
     private javax.swing.JRadioButton radioButtonUniformeA1;
     private javax.swing.JRadioButton radioButtonUniformeA2;
     private javax.swing.JRadioButton radioButtonUniformeA3;
     private javax.swing.JRadioButton radioButtonUniformeA4;
     private javax.swing.JRadioButton radioButtonUniformeA5;
+    private javax.swing.JTextField textACong;
+    private javax.swing.JTextField textCCong;
     private javax.swing.JTextField textLambdaA1;
     private javax.swing.JTextField textLambdaA2;
     private javax.swing.JTextField textLambdaA3;
     private javax.swing.JTextField textLambdaA4;
     private javax.swing.JTextField textLambdaA5;
+    private javax.swing.JTextField textMCong;
     private javax.swing.JTextField textMuA1;
     private javax.swing.JTextField textMuA2;
     private javax.swing.JTextField textMuA3;
     private javax.swing.JTextField textMuA4;
     private javax.swing.JTextField textMuA5;
+    private javax.swing.JTextField textSemillaCong;
     private javax.swing.JTextField textSigmaA1;
     private javax.swing.JTextField textSigmaA2;
     private javax.swing.JTextField textSigmaA3;
