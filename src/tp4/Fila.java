@@ -64,9 +64,15 @@ public class Fila implements IFila{
         tiempoA5=A5.calcularTiempo(randomA5);
         if(tiempoA2>=finA4){
         fin = tiempoA5 + tiempoA2;
+        if (fin < tiempoA3){
+            fin = tiempoA3;
+        }
         }
         else{
             fin=tiempoA5 + finA4;
+            if (fin < tiempoA3){
+            fin = tiempoA3;
+        }
         }
         
         contadorN = 1;
@@ -96,11 +102,18 @@ public class Fila implements IFila{
         tiempoA4=A4.calcularTiempo(randomA4);
         finA4 = tiempoA4 + tiempoA1;
         tiempoA5=A5.calcularTiempo(randomA5);
+        
         if(tiempoA2>=finA4){
         fin = tiempoA5 + tiempoA2;
+        if(fin<tiempoA3){
+            fin = tiempoA3;
+        }
         }
         else{
             fin=tiempoA5 + finA4;
+            if(fin<tiempoA3){
+            fin = tiempoA3;
+        }
         }
         this.contadorN = contadorN + 1;
         this.acumulador = acumulador+fin;
@@ -279,6 +292,11 @@ public class Fila implements IFila{
 
     public void setFinA4(double finA4) {
         this.finA4 = finA4;
+    }
+
+    @Override
+    public boolean esMenor() {
+       return fin<=45;
     }
 
 

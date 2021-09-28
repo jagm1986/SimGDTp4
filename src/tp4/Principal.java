@@ -53,6 +53,7 @@ public class Principal extends javax.swing.JFrame {
     long m = 0;
     long semilla = 0;
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    boolean esMenor;
         
     
     DecimalFormat df = new DecimalFormat("#.###");
@@ -60,8 +61,8 @@ public class Principal extends javax.swing.JFrame {
     
     private JFrame pantallaActual;
 
-    private Object[] filaAImprimir = new Object[17];
-    private Object[] columna = {"Simulacion", "Rand 1", "Tiempo A1", "Rand 2", "Tiempo A2", "Rand 3", "Tiempo A3", "Rand 4", "Tiempo A4", "Fin A4", "Rand 5", "Tiempo A5", "Fin", "Acumulado" ,"Promedio", "Minimo", "Maximo"};
+    private Object[] filaAImprimir = new Object[18];
+    private Object[] columna = {"Simulacion", "Rand 1", "Tiempo A1", "Rand 2", "Tiempo A2", "Rand 3", "Tiempo A3", "Rand 4", "Tiempo A4", "Fin A4", "Rand 5", "Tiempo A5", "Fin", "Acumulado" ,"Promedio", "Minimo", "Maximo", "Es Menor o Igual a 45"};
 
     private void llenarFila(IFila aux) {
         filaAImprimir[0] = (int) aux.getContadorN();
@@ -81,6 +82,7 @@ public class Principal extends javax.swing.JFrame {
         filaAImprimir[14] = df.format(aux.getPromedio());
         filaAImprimir[15] = df.format(minimo);
         filaAImprimir[16] = df.format(maximo);
+        filaAImprimir[17] = aux.esMenor();
 
     }
 
@@ -1071,6 +1073,7 @@ public class Principal extends javax.swing.JFrame {
             }
             if(aux1.getFin()<=45.0){
                 counterProbabilidad45dias++;
+                
             }
             aux1 = aux2;
             if (aux1.getFin() > maximo){

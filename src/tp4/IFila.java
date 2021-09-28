@@ -32,5 +32,5 @@ public interface IFila {
     void setAcumulador(double acumulador);
     long getSemilla();
     void setSemilla(long s);
-    
+    boolean esMenor();
 }

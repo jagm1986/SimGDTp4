@@ -94,7 +94,6 @@ public class FilaCongruencial implements IFila{
     public void CalcularNuevaFila(double contadorN, double promedio) {
 
         semilla = (a*semilla+c)%m;
-        System.out.println("S" + semilla);
                 randomA1 =(double) semilla/m;
                 
                 semilla = (a*semilla+c)%m;
@@ -119,9 +118,15 @@ public class FilaCongruencial implements IFila{
         tiempoA5=A5.calcularTiempo(randomA5);
         if(tiempoA2>=finA4){
         fin = tiempoA5 + tiempoA2;
+        if (fin < tiempoA3){
+            fin = tiempoA3;
+        }
         }
         else{
             fin=tiempoA5 + finA4;
+            if (fin < tiempoA3){
+            fin = tiempoA3;
+        }
         }
         this.contadorN = contadorN + 1;
         this.acumulador = acumulador+fin;
@@ -328,6 +333,8 @@ public class FilaCongruencial implements IFila{
     public void setSemilla(long semilla) {
         this.semilla = semilla;
     }
-    
+     public boolean esMenor() {
+       return fin<=45;
+    }
 
 }
