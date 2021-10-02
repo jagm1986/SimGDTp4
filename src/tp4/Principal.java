@@ -5,11 +5,8 @@
  */
 package tp4;
 
-
 //TODO Agregar validaciones para parametros normal y exponencial
 //TODO Ultimo punto con los 15 intervalos
-
-
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import javax.swing.JFrame;
@@ -48,20 +45,18 @@ public class Principal extends javax.swing.JFrame {
     private double maximo = 0;
     private double minimo = 0;
     private int counterProbabilidad45dias = 0;
-    long a =0;
+    long a = 0;
     long c = 0;
     long m = 0;
     long semilla = 0;
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        
-    
+
     DecimalFormat df = new DecimalFormat("#.###");
-    
-    
+
     private JFrame pantallaActual;
 
     private Object[] filaAImprimir = new Object[17];
-    private Object[] columna = {"Simulacion", "Rand 1", "Tiempo A1", "Rand 2", "Tiempo A2", "Rand 3", "Tiempo A3", "Rand 4", "Tiempo A4", "Fin A4", "Rand 5", "Tiempo A5", "Fin", "Acumulado" ,"Promedio", "Minimo", "Maximo"};
+    private Object[] columna = {"Simulacion", "Rand 1", "Tiempo A1", "Rand 2", "Tiempo A2", "Rand 3", "Tiempo A3", "Rand 4", "Tiempo A4", "Fin A4", "Rand 5", "Tiempo A5", "Fin", "Acumulado", "Promedio", "Minimo", "Maximo"};
 
     private void llenarFila(IFila aux) {
         filaAImprimir[0] = (int) aux.getContadorN();
@@ -84,124 +79,193 @@ public class Principal extends javax.swing.JFrame {
 
     }
 
-    private void obtenerDistribucionA1() {
-        if (radioButtonUniformeA1.isSelected()){
+    private boolean validarNumerosNulos(String a, String b) {
+
+        if (a.equals("") || b.equals("")) {
+            JOptionPane.showMessageDialog(new JFrame(), "Parametros no ingresados o deben ser mayores a 0", "Parámetros incorrectos", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validarNumerosNulos(String a) {
+
+        if (a.equals("")) {
+            JOptionPane.showMessageDialog(new JFrame(), "Parametro no ingresado o deben ser mayor a 0", "Parámetro incorrecto", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+
+    }
+
+    private boolean obtenerDistribucionA1() {
+        if (radioButtonUniformeA1.isSelected()) {
+            if (!validarNumerosNulos(textaA1.getText(), textbA1.getText())) {
+                return true;
+            }
             double a = Double.parseDouble(textaA1.getText());
             double b = Double.parseDouble(textbA1.getText());
-              
-            auxA1=new ActividadUniforme(a,b);
+
+            auxA1 = new ActividadUniforme(a, b);
         }
-        if (radioButtonNormalA1.isSelected()){
+        if (radioButtonNormalA1.isSelected()) {
+            if (!validarNumerosNulos(textMuA1.getText(), textSigmaA1.getText())) {
+                return true;
+            }
             double mu = Double.parseDouble(textMuA1.getText());
             double sigma = Double.parseDouble(textSigmaA1.getText());
-            
-            auxA1 = new ActividadNormal(mu,sigma);
-            
+
+            auxA1 = new ActividadNormal(mu, sigma);
+
         }
-        if(radioButtonExpA1.isSelected()){
-            double media= Double.parseDouble(textLambdaA1.getText());
-            
+        if (radioButtonExpA1.isSelected()) {
+            if (!validarNumerosNulos(textLambdaA1.getText())) {
+                return true;
+            }
+            double media = Double.parseDouble(textLambdaA1.getText());
+
             auxA1 = new ActividadExponencial(media);
         }
+        return false;
     }
-      private void obtenerDistribucionA2() {
-        if (radioButtonUniformeA2.isSelected()){
+
+    private boolean obtenerDistribucionA2() {
+        if (radioButtonUniformeA2.isSelected()) {
+            if (!validarNumerosNulos(textaA2.getText(), textbA2.getText())) {
+                return true;
+            }
             double a = Double.parseDouble(textaA2.getText());
             double b = Double.parseDouble(textbA2.getText());
-              
-            auxA2=new ActividadUniforme(a,b);
+
+            auxA2 = new ActividadUniforme(a, b);
         }
-        if (radioButtonNormalA2.isSelected()){
+        if (radioButtonNormalA2.isSelected()) {
+            if (!validarNumerosNulos(textMuA2.getText(), textSigmaA2.getText())) {
+                return true;
+            }
             double mu = Double.parseDouble(textMuA2.getText());
             double sigma = Double.parseDouble(textSigmaA2.getText());
-            
-            auxA2 = new ActividadNormal(mu,sigma);
-            
+
+            auxA2 = new ActividadNormal(mu, sigma);
+
         }
-        if(radioButtonExpA2.isSelected()){
-            double media= Double.parseDouble(textLambdaA2.getText());
-            
+        if (radioButtonExpA2.isSelected()) {
+            if (!validarNumerosNulos(textLambdaA2.getText())) {
+                return true;
+            }
+            double media = Double.parseDouble(textLambdaA2.getText());
+
             auxA2 = new ActividadExponencial(media);
         }
+        return false;
     }
-      
-       private void obtenerDistribucionA3() {
-        if (radioButtonUniformeA3.isSelected()){
+
+    private boolean obtenerDistribucionA3() {
+        if (radioButtonUniformeA3.isSelected()) {
+            if (!validarNumerosNulos(textaA3.getText(), textbA3.getText())) {
+                return true;
+            }
             double a = Double.parseDouble(textaA3.getText());
             double b = Double.parseDouble(textbA3.getText());
-              
-            auxA3=new ActividadUniforme(a,b);
+
+            auxA3 = new ActividadUniforme(a, b);
         }
-        if (radioButtonNormalA3.isSelected()){
+        if (radioButtonNormalA3.isSelected()) {
+            if (!validarNumerosNulos(textMuA3.getText(), textSigmaA3.getText())) {
+                return true;
+            }
             double mu = Double.parseDouble(textMuA3.getText());
             double sigma = Double.parseDouble(textSigmaA3.getText());
-            
-            auxA3 = new ActividadNormal(mu,sigma);
-            
+
+            auxA3 = new ActividadNormal(mu, sigma);
+
         }
-        if(radioButtonExpA3.isSelected()){
-            double media= Double.parseDouble(textLambdaA3.getText());
-            
+        if (radioButtonExpA3.isSelected()) {
+            if (!validarNumerosNulos(textLambdaA3.getText())) {
+                return true;
+            }
+            double media = Double.parseDouble(textLambdaA3.getText());
+
             auxA3 = new ActividadExponencial(media);
         }
+        return false;
     }
-       
-        private void obtenerDistribucionA4() {
-        if (radioButtonUniformeA4.isSelected()){
+
+    private boolean obtenerDistribucionA4() {
+        if (radioButtonUniformeA4.isSelected()) {
+            if (!validarNumerosNulos(textaA4.getText(), textbA4.getText())) {
+                return true;
+            }
             double a = Double.parseDouble(textaA4.getText());
             double b = Double.parseDouble(textbA4.getText());
-              
-            auxA4=new ActividadUniforme(a,b);
+
+            auxA4 = new ActividadUniforme(a, b);
         }
-        if (radioButtonNormalA4.isSelected()){
+        if (radioButtonNormalA4.isSelected()) {
+            if (!validarNumerosNulos(textMuA4.getText(), textSigmaA4.getText())) {
+                return true;
+            }
             double mu = Double.parseDouble(textMuA4.getText());
             double sigma = Double.parseDouble(textSigmaA4.getText());
-            
-            auxA4 = new ActividadNormal(mu,sigma);
-            
+
+            auxA4 = new ActividadNormal(mu, sigma);
+
         }
-        if(radioButtonExpA4.isSelected()){
-            double media= Double.parseDouble(textLambdaA4.getText());
-            
+        if (radioButtonExpA4.isSelected()) {
+            if (!validarNumerosNulos(textLambdaA4.getText())) {
+                return true;
+            }
+            double media = Double.parseDouble(textLambdaA4.getText());
+
             auxA4 = new ActividadExponencial(media);
         }
+        return false;
     }
-        
-         private void obtenerDistribucionA5() {
-        if (radioButtonUniformeA5.isSelected()){
+
+    private boolean obtenerDistribucionA5() {
+        if (radioButtonUniformeA5.isSelected()) {
+            if (!validarNumerosNulos(textaA5.getText(), textbA5.getText())) {
+                return true;
+            }
             double a = Double.parseDouble(textaA5.getText());
             double b = Double.parseDouble(textbA5.getText());
-              
-            auxA5=new ActividadUniforme(a,b);
+
+            auxA5 = new ActividadUniforme(a, b);
         }
-        if (radioButtonNormalA5.isSelected()){
+        if (radioButtonNormalA5.isSelected()) {
+            if (!validarNumerosNulos(textMuA5.getText(), textSigmaA5.getText())) {
+                return true;
+            }
             double mu = Double.parseDouble(textMuA5.getText());
             double sigma = Double.parseDouble(textSigmaA5.getText());
-            
-            auxA5 = new ActividadNormal(mu,sigma);
-            
+
+            auxA5 = new ActividadNormal(mu, sigma);
+
         }
-        if(radioButtonExpA5.isSelected()){
-            double media= Double.parseDouble(textLambdaA5.getText());
-            
+        if (radioButtonExpA5.isSelected()) {
+            if (!validarNumerosNulos(textLambdaA5.getText())) {
+                return true;
+            }
+            double media = Double.parseDouble(textLambdaA5.getText());
+
             auxA5 = new ActividadExponencial(media);
         }
+        return false;
     }
 
     public Principal() {
 
         initComponents();
         pantallaActual = new JFrame();
-        
 
     }
-    
-    private boolean VerificarSeleccionCongruencial(){
-        if(radioButtonCongurencial.isSelected()== true){
-            a=Long.parseLong(textACong.getText());
-            c=Long.parseLong(textCCong.getText());
-            m=Long.parseLong(textMCong.getText());
-            semilla=Long.parseLong(textSemillaCong.getText());
+
+    private boolean VerificarSeleccionCongruencial() {
+        if (radioButtonCongurencial.isSelected() == true) {
+            a = Long.parseLong(textACong.getText());
+            c = Long.parseLong(textCCong.getText());
+            m = Long.parseLong(textMCong.getText());
+            semilla = Long.parseLong(textSemillaCong.getText());
             return true;
         }
         return false;
@@ -1023,32 +1087,43 @@ public class Principal extends javax.swing.JFrame {
         N = Integer.parseInt(txtCantidadFilas.getText());
         desde = Integer.parseInt(txtDesde.getText());
         hasta = Integer.parseInt(txtHasta.getText());
-        
-         counterProbabilidad45dias = 0;
-         
-         boolean esCong = VerificarSeleccionCongruencial();
-         
-        obtenerDistribucionA1();
-        obtenerDistribucionA2();
-        obtenerDistribucionA3();
-        obtenerDistribucionA4();
-        obtenerDistribucionA5();
-        
+
+        counterProbabilidad45dias = 0;
+
+        boolean esCong = VerificarSeleccionCongruencial();
+
+        if (obtenerDistribucionA1()) {
+            return;
+        }
+        if (obtenerDistribucionA2()) {
+            return;
+        }
+        if (obtenerDistribucionA3()) {
+            return;
+        }
+        if (obtenerDistribucionA4()) {
+            return;
+        }
+        if (obtenerDistribucionA5()) {
+            return;
+        }
 
         tabla = new DefaultTableModel();
         tabla.setColumnIdentifiers(columna);
-        if(esCong == true){
-               aux1 = new FilaCongruencial(auxA1, auxA2, auxA3, auxA4, auxA5, a,c, m, semilla);
-        aux2 = new FilaCongruencial(auxA1, auxA2, auxA3, auxA4, auxA5, a,c, m, semilla);
-        }else{
-         aux1 =  new Fila(auxA1, auxA2, auxA3, auxA4, auxA5);
-       aux2 =  new Fila(auxA1, auxA2, auxA3, auxA4, auxA5);}
+        if (esCong == true) {
+            aux1 = new FilaCongruencial(auxA1, auxA2, auxA3, auxA4, auxA5, a, c, m, semilla);
+            aux2 = new FilaCongruencial(auxA1, auxA2, auxA3, auxA4, auxA5, a, c, m, semilla);
+        } else {
+            aux1 = new Fila(auxA1, auxA2, auxA3, auxA4, auxA5);
+            aux2 = new Fila(auxA1, auxA2, auxA3, auxA4, auxA5);
+        }
         aux1.CalcularPrimeraFila();
-        try{
-        if(aux2.getSemilla() != -1){
-            aux2.setSemilla(aux1.getSemilla());
-        }}
-        catch(Exception e){}
+        try {
+            if (aux2.getSemilla() != -1) {
+                aux2.setSemilla(aux1.getSemilla());
+            }
+        } catch (Exception e) {
+        }
         maximo = aux1.getFin();
         minimo = aux1.getFin();
         for (int i = 0; i < N; i++) {
@@ -1057,73 +1132,73 @@ public class Principal extends javax.swing.JFrame {
                 llenarFila(aux1);
                 tabla.addRow(filaAImprimir);
                 if (aux2.getContadorN() == 2) {
-                    aux2.setAcumulador(aux1.getAcumulador()+aux2.getFin());
-                    aux2.setPromedio(aux2.getAcumulador()/2);
+                    aux2.setAcumulador(aux1.getAcumulador() + aux2.getFin());
+                    aux2.setPromedio(aux2.getAcumulador() / 2);
                     llenarFila(aux2);
                     tabla.addRow(filaAImprimir);
                 }
             }
             if (aux1.getContadorN() == N) {
-                promedio=aux1.getPromedio();
+                promedio = aux1.getPromedio();
             }
-            if (i < 500){
+            if (i < 500) {
                 dataset.addValue(aux1.getPromedio(), "", String.valueOf(i));
             }
-            if(aux1.getFin()<=45.0){
+            if (aux1.getFin() <= 45.0) {
                 counterProbabilidad45dias++;
             }
             aux1 = aux2;
-            if (aux1.getFin() > maximo){
-                maximo= aux1.getFin();
+            if (aux1.getFin() > maximo) {
+                maximo = aux1.getFin();
             }
-            if(aux1.getFin() < minimo){
+            if (aux1.getFin() < minimo) {
                 minimo = aux1.getFin();
             }
         }
-        double promedio45 = (double)counterProbabilidad45dias / (double) N;
+        double promedio45 = (double) counterProbabilidad45dias / (double) N;
         lblMax.setText("Maximo:" + df.format(maximo));
         lblMin.setText(" Minimo: " + df.format(minimo));
-       lblProb45.setText("Probabilidad de completar en 45 dias o menos: %" + 100*promedio45);
+        lblProb45.setText("Probabilidad de completar en 45 dias o menos: %" + 100 * promedio45);
         Tabla.setModel(tabla);
-        
+
         double all[] = new double[hasta];
         for (int i = 0; i < hasta; i++) {
             all[i] = Double.parseDouble(Tabla.getModel().getValueAt(i, 12).toString().replace(",", "."));
         }
         Arrays.sort(all);
-        double masBajo=999999;
+        double masBajo = 999999;
         for (int i = 0; i < all.length; i++) {
             double d = all[i];
-            if((double)i/all.length > 0.9 ){
-                if (d<masBajo){
-                    masBajo=d;
+            if ((double) i / all.length > 0.9) {
+                if (d < masBajo) {
+                    masBajo = d;
                 }
             }
         }
-        
+
         lblFechaMasBaja.setText("Fecha mas baja posible con 90% de confianza: " + masBajo);
 
     }//GEN-LAST:event_BtnSimularActionPerformed
-    
+
     private void btnEvaluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluarActionPerformed
         // TODO add your handling code here:
 
         pantallaActual.dispose();
 //        pantallaActual = new Resultado(promedio31, promedio32, promedio33, promedio34);
         pantallaActual.setVisible(true);
-                JFreeChart lineChart = ChartFactory.createLineChart(
-         "Prueba",
-         "Nro Simulacion","Dias",
-         dataset,
-         PlotOrientation.VERTICAL,
-         true,true,false);
+        JFreeChart lineChart = ChartFactory.createLineChart(
+                "Prueba",
+                "Nro Simulacion", "Dias",
+                dataset,
+                PlotOrientation.VERTICAL,
+                true, true, false);
 
-      ChartFrame frame = new ChartFrame("Gráfico de barras",lineChart);
-            frame.pack();
-            frame.setVisible(true);
-            frame.setLocationRelativeTo(null);
-     
-      
+        ChartFrame frame = new ChartFrame("Gráfico de barras", lineChart);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+
+
     }//GEN-LAST:event_btnEvaluarActionPerformed
 
     private void radioButtonNormalA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalA1ActionPerformed
@@ -1136,7 +1211,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonNormalA1ActionPerformed
 
     private void radioButtonExpA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonExpA1ActionPerformed
-                textaA1.setEnabled(false);
+        textaA1.setEnabled(false);
         textbA1.setEnabled(false);
         textLambdaA1.setEnabled(true);
         textSigmaA1.setEnabled(false);
@@ -1144,17 +1219,17 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonExpA1ActionPerformed
 
     private void radioButtonNormalA2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalA2ActionPerformed
-             
+
         textaA2.setEnabled(false);
         textbA2.setEnabled(false);
         textLambdaA2.setEnabled(false);
         textSigmaA2.setEnabled(true);
         textMuA2.setEnabled(true);
-        
+
     }//GEN-LAST:event_radioButtonNormalA2ActionPerformed
 
     private void radioButtonExpA2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonExpA2ActionPerformed
-               
+
         textaA2.setEnabled(false);
         textbA2.setEnabled(false);
         textLambdaA2.setEnabled(true);
@@ -1163,7 +1238,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonExpA2ActionPerformed
 
     private void radioButtonNormalA3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalA3ActionPerformed
-               textaA3.setEnabled(false);
+        textaA3.setEnabled(false);
         textbA3.setEnabled(false);
         textLambdaA3.setEnabled(false);
         textSigmaA3.setEnabled(true);
@@ -1171,16 +1246,16 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonNormalA3ActionPerformed
 
     private void radioButtonExpA3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonExpA3ActionPerformed
-               textaA3.setEnabled(false);
+        textaA3.setEnabled(false);
         textbA3.setEnabled(false);
         textLambdaA3.setEnabled(true);
         textSigmaA3.setEnabled(false);
         textMuA3.setEnabled(false);
-      
+
     }//GEN-LAST:event_radioButtonExpA3ActionPerformed
 
     private void radioButtonNormalA4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalA4ActionPerformed
-          textaA4.setEnabled(false);
+        textaA4.setEnabled(false);
         textbA4.setEnabled(false);
         textLambdaA4.setEnabled(false);
         textSigmaA4.setEnabled(true);
@@ -1188,7 +1263,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonNormalA4ActionPerformed
 
     private void radioButtonExpA4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonExpA4ActionPerformed
-            textaA4.setEnabled(false);
+        textaA4.setEnabled(false);
         textbA4.setEnabled(false);
         textLambdaA4.setEnabled(true);
         textSigmaA4.setEnabled(false);
@@ -1196,7 +1271,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonExpA4ActionPerformed
 
     private void radioButtonNormalA5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalA5ActionPerformed
-               textaA5.setEnabled(false);
+        textaA5.setEnabled(false);
         textbA5.setEnabled(false);
         textLambdaA5.setEnabled(false);
         textSigmaA5.setEnabled(true);
@@ -1204,12 +1279,12 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonNormalA5ActionPerformed
 
     private void radioButtonExpA5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonExpA5ActionPerformed
-                textaA5.setEnabled(false);
+        textaA5.setEnabled(false);
         textbA5.setEnabled(false);
         textLambdaA5.setEnabled(true);
         textSigmaA5.setEnabled(false);
         textMuA5.setEnabled(false);
-      
+
     }//GEN-LAST:event_radioButtonExpA5ActionPerformed
 
     private void textaA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textaA1ActionPerformed
@@ -1225,7 +1300,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_textLambdaA5ActionPerformed
 
     private void radioButtonUniformeA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonUniformeA1ActionPerformed
-                        textaA1.setEnabled(true);
+        textaA1.setEnabled(true);
         textbA1.setEnabled(true);
         textLambdaA1.setEnabled(false);
         textSigmaA1.setEnabled(false);
@@ -1233,7 +1308,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonUniformeA1ActionPerformed
 
     private void radioButtonUniformeA2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonUniformeA2ActionPerformed
-              
+
         textaA2.setEnabled(true);
         textbA2.setEnabled(true);
         textLambdaA2.setEnabled(false);
@@ -1242,7 +1317,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonUniformeA2ActionPerformed
 
     private void radioButtonUniformeA3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonUniformeA3ActionPerformed
-            textaA3.setEnabled(true);
+        textaA3.setEnabled(true);
         textbA3.setEnabled(true);
         textLambdaA3.setEnabled(false);
         textSigmaA3.setEnabled(false);
@@ -1250,7 +1325,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonUniformeA3ActionPerformed
 
     private void radioButtonUniformeA4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonUniformeA4ActionPerformed
-         
+
         textaA4.setEnabled(true);
         textbA4.setEnabled(true);
         textLambdaA4.setEnabled(false);
@@ -1259,7 +1334,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonUniformeA4ActionPerformed
 
     private void radioButtonUniformeA5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonUniformeA5ActionPerformed
-              textaA5.setEnabled(true);
+        textaA5.setEnabled(true);
         textbA5.setEnabled(true);
         textLambdaA5.setEnabled(false);
         textSigmaA5.setEnabled(false);
