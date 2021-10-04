@@ -134,9 +134,9 @@ public class FilaCongruencial implements IFila{
         this.acumulador = acumulador+fin;
         this.promedio = 1/contadorN*((contadorN-1)*promedio+fin);
         this.varianza = (1/(contadorN-1))*((contadorN-2)*varianza+(contadorN/(contadorN-1)*(promedio-fin)));
-        //TDistribution tds = new TDistribution(this.contadorN);
+        TDistribution tds = new TDistribution(this.contadorN);
         
-        //this.tStudentFormula = this.promedio+tds.inverseCumulativeProbability(0.975)*Math.sqrt(this.varianza/Math.sqrt(this.contadorN));
+        this.tStudentFormula = this.promedio+tds.inverseCumulativeProbability(0.975)*Math.sqrt(this.varianza/Math.sqrt(this.contadorN));
     }
 
     public double getRandomA1() {
