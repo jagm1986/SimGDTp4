@@ -5,6 +5,8 @@
  */
 package tp4;
 
+import org.apache.commons.math3.distribution.TDistribution;
+
 /**
  *
  * @author Usuario
@@ -31,6 +33,10 @@ public class FilaCongruencial implements IFila{
     double acumulador = 0;
     double promedio = 0;
     double fin = 0;
+    int prob45 =0;
+    double varianza=0;
+    double tStudentFormula;
+
 
    
     double finA4= 0;
@@ -86,12 +92,13 @@ public class FilaCongruencial implements IFila{
         contadorN = 1;
         acumulador = fin;
         promedio = fin;
+        varianza = (1/(contadorN-1))*(contadorN/(contadorN-1)*(promedio-fin));
         
         //System.out.println(cantidadPasajerosPresentes + " " + promedio + " " + acumulador);
 
     }
 
-    public void CalcularNuevaFila(double contadorN, double promedio) {
+    public void CalcularNuevaFila(double contadorN, double promedio, double varianza) {
 
         semilla = (a*semilla+c)%m;
         System.out.println("S" + semilla);
@@ -126,7 +133,10 @@ public class FilaCongruencial implements IFila{
         this.contadorN = contadorN + 1;
         this.acumulador = acumulador+fin;
         this.promedio = 1/contadorN*((contadorN-1)*promedio+fin);
-
+        this.varianza = (1/(contadorN-1))*((contadorN-2)*varianza+(contadorN/(contadorN-1)*(promedio-fin)));
+        //TDistribution tds = new TDistribution(this.contadorN);
+        
+        //this.tStudentFormula = this.promedio+tds.inverseCumulativeProbability(0.975)*Math.sqrt(this.varianza/Math.sqrt(this.contadorN));
     }
 
     public double getRandomA1() {
@@ -328,6 +338,33 @@ public class FilaCongruencial implements IFila{
     public void setSemilla(long semilla) {
         this.semilla = semilla;
     }
+
+    public int getProb45() {
+        return prob45;
+    }
+
+    public void setProb45(int prob45) {
+        this.prob45 = prob45;
+    }
+
+    public double getVarianza() {
+        return varianza;
+    }
+
+    public void setVarianza(double varianza) {
+        this.varianza = varianza;
+    }
+
+    public double gettStudentFormula() {
+        return tStudentFormula;
+    }
+
+    public void settStudentFormula(double tStudentFormula) {
+        this.tStudentFormula = tStudentFormula;
+    }
+
+    
+    
     
 
 }

@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.*;
+import org.apache.commons.math3.distribution.TDistribution;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
@@ -55,8 +56,8 @@ public class Principal extends javax.swing.JFrame {
 
     private JFrame pantallaActual;
 
-    private Object[] filaAImprimir = new Object[17];
-    private Object[] columna = {"Simulacion", "Rand 1", "Tiempo A1", "Rand 2", "Tiempo A2", "Rand 3", "Tiempo A3", "Rand 4", "Tiempo A4", "Fin A4", "Rand 5", "Tiempo A5", "Fin", "Acumulado", "Promedio", "Minimo", "Maximo"};
+    private Object[] filaAImprimir = new Object[21];
+    private Object[] columna = {"Simulacion", "Rand 1", "T A1", "Rand 2", "T A2", "Rand 3", "T A3", "Rand 4", "T A4", "Fin A4", "Rand 5", "T A5", "Fin", "Acumulado", "Promedio", "Minimo", "Maximo", "Es Menor a 45", "Varianza", "Desviacion", "Form tst"};
 
     private void llenarFila(IFila aux) {
         filaAImprimir[0] = (int) aux.getContadorN();
@@ -76,6 +77,10 @@ public class Principal extends javax.swing.JFrame {
         filaAImprimir[14] = df.format(aux.getPromedio());
         filaAImprimir[15] = df.format(minimo);
         filaAImprimir[16] = df.format(maximo);
+        filaAImprimir[17] = df.format(aux.getProb45());
+        filaAImprimir[18] = df.format(aux.getVarianza());
+        filaAImprimir[19] = df.format(Math.sqrt(aux.getVarianza()));
+        filaAImprimir[20] = df.format(aux.gettStudentFormula());
 
     }
 
@@ -970,21 +975,21 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addComponent(btnEvaluar))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel38)
+                        .addComponent(textSemillaCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel37)
+                        .addComponent(textMCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel36)
+                        .addComponent(textCCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel35)
+                        .addComponent(textACong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(radioButtonSistema)
-                        .addComponent(radioButtonCongurencial)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel35)
-                            .addComponent(textACong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel36)
-                                .addComponent(textCCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel37)
-                                    .addComponent(textMCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel38)
-                                        .addComponent(textSemillaCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                        .addComponent(radioButtonCongurencial)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -1084,6 +1089,9 @@ public class Principal extends javax.swing.JFrame {
 
     private void BtnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimularActionPerformed
         // TODO add your handling code here:
+        TDistribution tdss = new TDistribution(1);
+        System.out.println(tdss.inverseCumulativeProbability(0.975));
+
         N = Integer.parseInt(txtCantidadFilas.getText());
         desde = Integer.parseInt(txtDesde.getText());
         hasta = Integer.parseInt(txtHasta.getText());
@@ -1126,16 +1134,35 @@ public class Principal extends javax.swing.JFrame {
         }
         maximo = aux1.getFin();
         minimo = aux1.getFin();
+        
         for (int i = 0; i < N; i++) {
-            aux2.CalcularNuevaFila(aux1.getContadorN(), aux1.getPromedio());
+            
+            aux2.CalcularNuevaFila(aux1.getContadorN(), aux1.getPromedio(), aux1.getVarianza());
+            if (aux1.getFin() > maximo) {
+                maximo = aux1.getFin();
+            }
+            if (aux1.getFin() < minimo) {
+                minimo = aux1.getFin();
+            }
+            if(aux1.getFin()<=45){
+                 aux1.setProb45(1);
+                 counterProbabilidad45dias++;
+             }
             if (aux1.getContadorN() >= desde && aux1.getContadorN() <= hasta || aux1.getContadorN() == N) {
                 llenarFila(aux1);
                 tabla.addRow(filaAImprimir);
                 if (aux2.getContadorN() == 2) {
                     aux2.setAcumulador(aux1.getAcumulador() + aux2.getFin());
                     aux2.setPromedio(aux2.getAcumulador() / 2);
+                    if (aux2.getFin() > maximo) {
+                maximo = aux2.getFin();
+            }
+            if (aux2.getFin() < minimo) {
+                minimo = aux2.getFin();
+            }
                     llenarFila(aux2);
                     tabla.addRow(filaAImprimir);
+                    
                 }
             }
             if (aux1.getContadorN() == N) {
@@ -1144,16 +1171,10 @@ public class Principal extends javax.swing.JFrame {
             if (i < 500) {
                 dataset.addValue(aux1.getPromedio(), "", String.valueOf(i));
             }
-            if (aux1.getFin() <= 45.0) {
-                counterProbabilidad45dias++;
-            }
+             
             aux1 = aux2;
-            if (aux1.getFin() > maximo) {
-                maximo = aux1.getFin();
-            }
-            if (aux1.getFin() < minimo) {
-                minimo = aux1.getFin();
-            }
+            
+           
         }
         double promedio45 = (double) counterProbabilidad45dias / (double) N;
         lblMax.setText("Maximo:" + df.format(maximo));
