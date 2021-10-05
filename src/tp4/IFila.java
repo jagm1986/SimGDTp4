@@ -38,5 +38,12 @@ public interface IFila {
     int getProb45();
     void settStudentFormula(double t);
     double gettStudentFormula();
+    double getTiempoMasTardioA1();
+     double getTiempoMasTardioA2();
+      double getTiempoMasTardioA3();
+       double getTiempoMasTardioA4();
+        double getTiempoMasTardioA5();
+       double[] getContadorCC();
+       void setContadorCC(double[] cc);
     
 }
