@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.*;
+import org.apache.commons.math3.distribution.TDistribution;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
@@ -55,8 +56,8 @@ public class Principal extends javax.swing.JFrame {
 
     private JFrame pantallaActual;
 
-    private Object[] filaAImprimir = new Object[17];
-    private Object[] columna = {"Simulacion", "Rand 1", "Tiempo A1", "Rand 2", "Tiempo A2", "Rand 3", "Tiempo A3", "Rand 4", "Tiempo A4", "Fin A4", "Rand 5", "Tiempo A5", "Fin", "Acumulado", "Promedio", "Minimo", "Maximo"};
+    private Object[] filaAImprimir = new Object[31];
+    private Object[] columna = {"Sim", "R1", "T A1", "R2", "T A2", "R3", "T A3", "R4", "T A4", "Fin A4", "R5", "T A5", "Fin", "Acum", "Prom", "Min", "Max", "<45", "Var", "DS", "Form tst", "T In mas tardio A1", "T In mas tardio A2", "T In mas tardio A3", "T In mas tardio A4", "T In mas tardio A5", "%A1", "%A2", "%A3", "%A4", "%A5"};
 
     private void llenarFila(IFila aux) {
         filaAImprimir[0] = (int) aux.getContadorN();
@@ -76,7 +77,20 @@ public class Principal extends javax.swing.JFrame {
         filaAImprimir[14] = df.format(aux.getPromedio());
         filaAImprimir[15] = df.format(minimo);
         filaAImprimir[16] = df.format(maximo);
-
+        filaAImprimir[17] = df.format(aux.getProb45());
+        filaAImprimir[18] = df.format(aux.getVarianza());
+        filaAImprimir[19] = df.format(Math.sqrt(aux.getVarianza()));
+        filaAImprimir[20] = df.format(aux.gettStudentFormula());
+        filaAImprimir[21] = df.format(aux.getTiempoMasTardioA1());
+        filaAImprimir[22] = df.format(aux.getTiempoMasTardioA2());
+        filaAImprimir[23] = df.format(aux.getTiempoMasTardioA3());
+        filaAImprimir[24] = df.format(aux.getTiempoMasTardioA4());
+        filaAImprimir[25] = df.format(aux.getTiempoMasTardioA5());
+        filaAImprimir[26] = df.format(aux.getContadorCC()[0] / aux.getContadorN());
+        filaAImprimir[27] = df.format(aux.getContadorCC()[1] / aux.getContadorN());
+        filaAImprimir[28] = df.format(aux.getContadorCC()[2] / aux.getContadorN());
+        filaAImprimir[29] = df.format(aux.getContadorCC()[3] / aux.getContadorN());
+        filaAImprimir[30] = df.format(aux.getContadorCC()[4] / aux.getContadorN());
     }
 
     private boolean validarNumerosNulos(String a, String b) {
@@ -970,21 +984,21 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addComponent(btnEvaluar))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel38)
+                        .addComponent(textSemillaCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel37)
+                        .addComponent(textMCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel36)
+                        .addComponent(textCCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel35)
+                        .addComponent(textACong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(radioButtonSistema)
-                        .addComponent(radioButtonCongurencial)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel35)
-                            .addComponent(textACong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel36)
-                                .addComponent(textCCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel37)
-                                    .addComponent(textMCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel38)
-                                        .addComponent(textSemillaCong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                        .addComponent(radioButtonCongurencial)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -1081,9 +1095,12 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    double masBajo;
     private void BtnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimularActionPerformed
         // TODO add your handling code here:
+        TDistribution tdss = new TDistribution(1);
+        System.out.println(tdss.inverseCumulativeProbability(0.975));
+
         N = Integer.parseInt(txtCantidadFilas.getText());
         desde = Integer.parseInt(txtDesde.getText());
         hasta = Integer.parseInt(txtHasta.getText());
@@ -1118,6 +1135,7 @@ public class Principal extends javax.swing.JFrame {
             aux2 = new Fila(auxA1, auxA2, auxA3, auxA4, auxA5);
         }
         aux1.CalcularPrimeraFila();
+
         try {
             if (aux2.getSemilla() != -1) {
                 aux2.setSemilla(aux1.getSemilla());
@@ -1126,16 +1144,48 @@ public class Principal extends javax.swing.JFrame {
         }
         maximo = aux1.getFin();
         minimo = aux1.getFin();
+        double A1 = aux1.getContadorCC()[0];
+        double A2 = aux1.getContadorCC()[1];
+        double A3 = aux1.getContadorCC()[2];
+        double A4 = aux1.getContadorCC()[3];
+        double A5 = aux1.getContadorCC()[4];
+        double[] cc = new double[5];
+        cc[0] = A1;
+        cc[1] = A2;
+        cc[2] = A3;
+        cc[3] = A4;
+        cc[4] = A5;
+
         for (int i = 0; i < N; i++) {
-            aux2.CalcularNuevaFila(aux1.getContadorN(), aux1.getPromedio());
+            if (i == 0) {
+                aux2.setContadorCC(cc);
+            }
+            aux2.CalcularNuevaFila(aux1.getContadorN(), aux1.getPromedio(), aux1.getVarianza());
+            if (aux1.getFin() > maximo) {
+                maximo = aux1.getFin();
+            }
+            if (aux1.getFin() < minimo) {
+                minimo = aux1.getFin();
+            }
+            if (aux1.getFin() <= 45) {
+                aux1.setProb45(1);
+                counterProbabilidad45dias++;
+            }
             if (aux1.getContadorN() >= desde && aux1.getContadorN() <= hasta || aux1.getContadorN() == N) {
                 llenarFila(aux1);
                 tabla.addRow(filaAImprimir);
                 if (aux2.getContadorN() == 2) {
                     aux2.setAcumulador(aux1.getAcumulador() + aux2.getFin());
                     aux2.setPromedio(aux2.getAcumulador() / 2);
+                    if (aux2.getFin() > maximo) {
+                        maximo = aux2.getFin();
+                    }
+                    if (aux2.getFin() < minimo) {
+                        minimo = aux2.getFin();
+                    }
                     llenarFila(aux2);
                     tabla.addRow(filaAImprimir);
+
                 }
             }
             if (aux1.getContadorN() == N) {
@@ -1144,15 +1194,11 @@ public class Principal extends javax.swing.JFrame {
             if (i < 500) {
                 dataset.addValue(aux1.getPromedio(), "", String.valueOf(i));
             }
-            if (aux1.getFin() <= 45.0) {
-                counterProbabilidad45dias++;
-            }
+
             aux1 = aux2;
-            if (aux1.getFin() > maximo) {
-                maximo = aux1.getFin();
-            }
-            if (aux1.getFin() < minimo) {
-                minimo = aux1.getFin();
+
+            if (i == N - 1) {
+                masBajo = aux1.gettStudentFormula();
             }
         }
         double promedio45 = (double) counterProbabilidad45dias / (double) N;
@@ -1161,7 +1207,7 @@ public class Principal extends javax.swing.JFrame {
         lblProb45.setText("Probabilidad de completar en 45 dias o menos: %" + 100 * promedio45);
         Tabla.setModel(tabla);
 
-        double all[] = new double[hasta];
+        /* double all[] = new double[hasta];
         for (int i = 0; i < hasta; i++) {
             all[i] = Double.parseDouble(Tabla.getModel().getValueAt(i, 12).toString().replace(",", "."));
         }
@@ -1174,8 +1220,7 @@ public class Principal extends javax.swing.JFrame {
                     masBajo = d;
                 }
             }
-        }
-
+        }*/
         lblFechaMasBaja.setText("Fecha mas baja posible con 90% de confianza: " + masBajo);
 
     }//GEN-LAST:event_BtnSimularActionPerformed

@@ -5,12 +5,13 @@
  */
 package tp4;
 
+import org.apache.commons.math3.distribution.TDistribution;
+
 /**
  *
  * @author Usuario
  */
-public class Fila implements IFila{
-
+public class Fila implements IFila {
 
     double randomA1 = 0;
     double randomA2 = 0;
@@ -27,9 +28,20 @@ public class Fila implements IFila{
     double acumulador = 0;
     double promedio = 0;
     double fin = 0;
+    int prob45 = 0;
+    double varianza = 0;
+    double tStudentFormula;
+    boolean C1 = false; //A1 - A4 - A5
+    boolean C2 = false; //A2 - A5
+    boolean C3 = false; //A3 
+    double tiempoMasTardioA1;
+    double tiempoMasTardioA2;
+    double tiempoMasTardioA3;
+    double tiempoMasTardioA4;
+    double tiempoMasTardioA5;
+    double[] contadorCC = {0.0, 0.0, 0.0, 0.0, 0.0};
 
-   
-    double finA4= 0;
+    double finA4 = 0;
     IActividad A1;
     IActividad A2;
     IActividad A3;
@@ -37,82 +49,180 @@ public class Fila implements IFila{
     IActividad A5;
 
     public Fila(IActividad a1, IActividad a2, IActividad a3, IActividad a4, IActividad a5) {
-        this.A1=a1;
-        this.A2=a2;
-        this.A3=a3;
-        this.A4=a4;
-        this.A5=a5;
+        this.A1 = a1;
+        this.A2 = a2;
+        this.A3 = a3;
+        this.A4 = a4;
+        this.A5 = a5;
     }
 
     public void CalcularPrimeraFila() {
         randomA1 = Math.random();
 
-               randomA2 = Math.random();
+        randomA2 = Math.random();
 
-               randomA3 = Math.random();
+        randomA3 = Math.random();
 
-               randomA4 = Math.random();
+        randomA4 = Math.random();
 
-               randomA5 = Math.random();
+        randomA5 = Math.random();
 
-        
-        tiempoA1=A1.calcularTiempo(randomA1);
-        tiempoA2=A2.calcularTiempo(randomA2);
-        tiempoA3=A3.calcularTiempo(randomA3);
-        tiempoA4=A4.calcularTiempo(randomA4);
+        tiempoA1 = A1.calcularTiempo(randomA1);
+        tiempoA2 = A2.calcularTiempo(randomA2);
+        tiempoA3 = A3.calcularTiempo(randomA3);
+        tiempoA4 = A4.calcularTiempo(randomA4);
         finA4 = tiempoA4 + tiempoA1;
-        tiempoA5=A5.calcularTiempo(randomA5);
-        if(tiempoA2>=finA4){
-        fin = tiempoA5 + tiempoA2;
+        tiempoA5 = A5.calcularTiempo(randomA5);
+        if (tiempoA2 >= finA4) {
+            fin = tiempoA5 + tiempoA2;
+            C2 = true;
+            C1 = false;
+            C3 = false;
+            if (tiempoA3 > fin) {
+                fin = tiempoA3;
+                C2 = false;
+                C1 = false;
+                C3 = true;
+            }
+
+        } else {
+            fin = tiempoA5 + finA4;
+            C2 = false;
+            C1 = true;
+            C3 = false;
+            if (tiempoA3 > fin) {
+                fin = tiempoA3;
+                C2 = false;
+                C1 = false;
+                C3 = true;
+            }
         }
-        else{
-            fin=tiempoA5 + finA4;
+
+        if (C1 == true) {
+            tiempoMasTardioA5 = fin - tiempoA5;
+            tiempoMasTardioA4 = tiempoMasTardioA5 - tiempoA4;
+            tiempoMasTardioA1 = 0;
+            tiempoMasTardioA3 = fin - tiempoA3;
+            tiempoMasTardioA2 = tiempoMasTardioA5 - tiempoA2;
+            contadorCC[0] += 1.0;
+            contadorCC[3] += 1.0;
+            contadorCC[4] += 1.0;
+        } else if (C2 == true) {
+            tiempoMasTardioA5 = fin - tiempoA5;
+            tiempoMasTardioA4 = tiempoMasTardioA5 - tiempoA4;
+            tiempoMasTardioA1 = tiempoMasTardioA4 - tiempoA1;
+            tiempoMasTardioA3 = fin - tiempoA3;
+            tiempoMasTardioA2 = 0;
+            contadorCC[1] += 1.0;
+            contadorCC[4] += 1.0;
+        } else {
+            tiempoMasTardioA5 = fin - tiempoA5;
+            tiempoMasTardioA4 = tiempoMasTardioA5 - tiempoA4;
+            tiempoMasTardioA1 = tiempoA4 - tiempoA1;
+            tiempoMasTardioA3 = 0;
+            tiempoMasTardioA2 = tiempoMasTardioA5 - tiempoA2;
+            if (tiempoMasTardioA1 < 0) {
+                tiempoMasTardioA1 = 0;
+            }
+            contadorCC[2] += 1.0;
         }
-        
         contadorN = 1;
         acumulador = fin;
         promedio = fin;
-        
+        //varianza = (1/(contadorN-1))*(contadorN/(contadorN-1)*(promedio-fin));
         //System.out.println(cantidadPasajerosPresentes + " " + promedio + " " + acumulador);
 
     }
 
-    public void CalcularNuevaFila(double contadorN, double promedio) {
+    public void CalcularNuevaFila(double contadorN, double promedio, double varianza) {
+        prob45 = 0;
 
         randomA1 = Math.random();
 
-               randomA2 = Math.random();
+        randomA2 = Math.random();
 
-               randomA3 = Math.random();
+        randomA3 = Math.random();
 
-               randomA4 = Math.random();
+        randomA4 = Math.random();
 
-               randomA5 = Math.random();
+        randomA5 = Math.random();
 
-        
-        tiempoA1=A1.calcularTiempo(randomA1);
-        tiempoA2=A2.calcularTiempo(randomA2);
-        tiempoA3=A3.calcularTiempo(randomA3);
-        tiempoA4=A4.calcularTiempo(randomA4);
+        tiempoA1 = A1.calcularTiempo(randomA1);
+        tiempoA2 = A2.calcularTiempo(randomA2);
+        tiempoA3 = A3.calcularTiempo(randomA3);
+        tiempoA4 = A4.calcularTiempo(randomA4);
         finA4 = tiempoA4 + tiempoA1;
-        tiempoA5=A5.calcularTiempo(randomA5);
-        if(tiempoA2>=finA4){
-        fin = tiempoA5 + tiempoA2;
+        tiempoA5 = A5.calcularTiempo(randomA5);
+        if (tiempoA2 >= finA4) {
+            fin = tiempoA5 + tiempoA2;
+            C2 = true;
+            C1 = false;
+            C3 = false;
+            if (tiempoA3 > fin) {
+                fin = tiempoA3;
+                C2 = false;
+                C1 = false;
+                C3 = true;
+            }
+
+        } else {
+            fin = tiempoA5 + finA4;
+            C2 = false;
+            C1 = true;
+            C3 = false;
+            if (tiempoA3 > fin) {
+                fin = tiempoA3;
+                C2 = false;
+                C1 = false;
+                C3 = true;
+            }
         }
-        else{
-            fin=tiempoA5 + finA4;
+
+        if (C1 == true) {
+            tiempoMasTardioA5 = fin - tiempoA5;
+            tiempoMasTardioA4 = tiempoMasTardioA5 - tiempoA4;
+            tiempoMasTardioA1 = 0;
+            tiempoMasTardioA3 = fin - tiempoA3;
+            tiempoMasTardioA2 = tiempoMasTardioA5 - tiempoA2;
+            contadorCC[0] += 1.0;
+            contadorCC[3] += 1.0;
+            contadorCC[4] += 1.0;
+        } else if (C2 == true) {
+            tiempoMasTardioA5 = fin - tiempoA5;
+            tiempoMasTardioA4 = tiempoMasTardioA5 - tiempoA4;
+            tiempoMasTardioA1 = tiempoMasTardioA4 - tiempoA1;
+            tiempoMasTardioA3 = fin - tiempoA3;
+            tiempoMasTardioA2 = 0;
+            contadorCC[1] += 1.0;
+            contadorCC[4] += 1.0;
+        } else {
+            tiempoMasTardioA5 = fin - tiempoA5;
+            tiempoMasTardioA4 = tiempoMasTardioA5 - tiempoA4;
+            tiempoMasTardioA1 = tiempoA4 - tiempoA1;
+            tiempoMasTardioA3 = 0;
+            tiempoMasTardioA2 = tiempoMasTardioA5 - tiempoA2;
+            if (tiempoMasTardioA1 < 0) {
+                tiempoMasTardioA1 = 0;
+            }
+            contadorCC[2] += 1.0;
         }
         this.contadorN = contadorN + 1;
-        this.acumulador = acumulador+fin;
-        this.promedio = 1/contadorN*((contadorN-1)*promedio+fin);
+        this.acumulador = acumulador + fin;
+        this.promedio = 1 / contadorN * ((contadorN - 1) * promedio + fin);
+        this.varianza = (1 / (this.contadorN - 1)) * ((this.contadorN - 2) * varianza + (this.contadorN / (this.contadorN - 1) * Math.pow((promedio - fin), 2)));
+        TDistribution tds = new TDistribution(this.contadorN - 1);
+        this.tStudentFormula = this.promedio + tds.inverseCumulativeProbability(0.975) * Math.sqrt(this.varianza) / Math.sqrt(this.contadorN);
 
     }
-    public long getSemilla(){
+
+    public long getSemilla() {
         return -1;
     }
-    public void setSemilla(long s){
-        
+
+    public void setSemilla(long s) {
+
     }
+
     public double getRandomA1() {
         return randomA1;
     }
@@ -264,8 +374,8 @@ public class Fila implements IFila{
     public void setA5(IActividad A5) {
         this.A5 = A5;
     }
-    
- public double getFin() {
+
+    public double getFin() {
         return fin;
     }
 
@@ -281,7 +391,56 @@ public class Fila implements IFila{
         this.finA4 = finA4;
     }
 
+    public int getProb45() {
+        return prob45;
+    }
 
-    
+    public void setProb45(int prob45) {
+        this.prob45 = prob45;
+    }
+
+    public double getVarianza() {
+        return varianza;
+    }
+
+    public void setVarianza(double varianza) {
+        this.varianza = varianza;
+    }
+
+    public double gettStudentFormula() {
+        return tStudentFormula;
+    }
+
+    public void settStudentFormula(double tStudentFormula) {
+        this.tStudentFormula = tStudentFormula;
+    }
+
+    public double getTiempoMasTardioA1() {
+        return tiempoMasTardioA1;
+    }
+
+    public double getTiempoMasTardioA2() {
+        return tiempoMasTardioA2;
+    }
+
+    public double getTiempoMasTardioA3() {
+        return tiempoMasTardioA3;
+    }
+
+    public double getTiempoMasTardioA4() {
+        return tiempoMasTardioA4;
+    }
+
+    public double getTiempoMasTardioA5() {
+        return tiempoMasTardioA5;
+    }
+
+    public double[] getContadorCC() {
+        return contadorCC;
+    }
+
+    public void setContadorCC(double[] contadorCC) {
+        this.contadorCC = contadorCC;
+    }
 
 }

@@ -11,7 +11,7 @@ package tp4;
  */
 public interface IFila {
     void CalcularPrimeraFila();
-    void CalcularNuevaFila(double contadorN, double promedio);
+    void CalcularNuevaFila(double contadorN, double promedio, double varianza);
     double getContadorN();
     double getFin();
     double getAcumulador();
@@ -29,8 +29,21 @@ public interface IFila {
     double getTiempoA5();
     double getFinA4();
     double getPromedio();
+    void setVarianza(double varianza);
+    double getVarianza();
     void setAcumulador(double acumulador);
     long getSemilla();
     void setSemilla(long s);
+    void setProb45(int p);
+    int getProb45();
+    void settStudentFormula(double t);
+    double gettStudentFormula();
+    double getTiempoMasTardioA1();
+     double getTiempoMasTardioA2();
+      double getTiempoMasTardioA3();
+       double getTiempoMasTardioA4();
+        double getTiempoMasTardioA5();
+       double[] getContadorCC();
+       void setContadorCC(double[] cc);
     
 }
