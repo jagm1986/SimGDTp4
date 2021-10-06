@@ -1183,6 +1183,10 @@ public class Principal extends javax.swing.JFrame {
                     if (aux2.getFin() < minimo) {
                         minimo = aux2.getFin();
                     }
+                    if (aux2.getFin() <= 45) {
+                        aux2.setProb45(1);
+                        counterProbabilidad45dias++;
+                    }
                     llenarFila(aux2);
                     tabla.addRow(filaAImprimir);
 
@@ -1199,6 +1203,7 @@ public class Principal extends javax.swing.JFrame {
 
             if (i == N - 1) {
                 masBajo = aux1.gettStudentFormula();
+               // masBajo = Math.round(masBajo);
             }
         }
         double promedio45 = (double) counterProbabilidad45dias / (double) N;
@@ -1221,7 +1226,7 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
         }*/
-        lblFechaMasBaja.setText("Fecha mas baja posible con 90% de confianza: " + masBajo);
+        lblFechaMasBaja.setText("Fecha mas baja posible con 90% de confianza: " + String.format("%.2f", masBajo));
 
     }//GEN-LAST:event_BtnSimularActionPerformed
 
